@@ -37,5 +37,5 @@ DATA=$( cat << EOF
 EOF
 )
 
-curl -XPUT -H "${HEADER}" --data "${DATA}" 'http://localhost:9200/_template/wikipedia_count_gt?pretty'
+curl -XPUT -H "${HEADER}" --data "${DATA}" 'http://ec2-34-238-255-241.compute-1.amazonaws.com:9200/_template/wikipedia_count_gt?pretty'
 echo

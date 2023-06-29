@@ -8,7 +8,7 @@ i=$1
 keytool -genkey -noprompt \
 			 -alias $i \
 			 -dname "CN=$i,OU=TEST,O=CONFLUENT,L=PaloAlto,S=Ca,C=US" \
-                         -ext "SAN=dns:$i,dns:localhost" \
+                         -ext "SAN=dns:$i,dns:ec2-34-238-255-241.compute-1.amazonaws.com" \
 			 -keystore kafka.$i.keystore.jks \
 			 -keyalg RSA \
 			 -storepass confluent \
@@ -16,11 +16,11 @@ keytool -genkey -noprompt \
 			 -storetype pkcs12
 
 # Create the certificate signing request (CSR)
-keytool -keystore kafka.$i.keystore.jks -alias $i -certreq -file $i.csr -storepass confluent -keypass confluent -ext "SAN=dns:$i,dns:localhost"
+keytool -keystore kafka.$i.keystore.jks -alias $i -certreq -file $i.csr -storepass confluent -keypass confluent -ext "SAN=dns:$i,dns:ec2-34-238-255-241.compute-1.amazonaws.com"
 #openssl req -in $i.csr -text -noout
 
 # Enables 'confluent login --ca-cert-path /etc/kafka/secrets/snakeoil-ca-1.crt --url https://kafka1:8091'
-DNS_ALT_NAMES=$(printf '%s\n' "DNS.1 = $i" "DNS.2 = localhost")
+DNS_ALT_NAMES=$(printf '%s\n' "DNS.1 = $i" "DNS.2 = ec2-34-238-255-241.compute-1.amazonaws.com")
 if [[ "$i" == "mds" ]]; then
   DNS_ALT_NAMES=$(printf '%s\n' "$DNS_ALT_NAMES" "DNS.3 = kafka1" "DNS.4 = kafka2")
 fi
@@ -53,7 +53,7 @@ keytool -noprompt -keystore kafka.$i.keystore.jks -alias snakeoil-caroot -import
 #keytool -list -v -keystore kafka.$i.keystore.jks -storepass confluent
 
 # Sign and import the host certificate into the keystore
-keytool -noprompt -keystore kafka.$i.keystore.jks -alias $i -import -file $i-ca1-signed.crt -storepass confluent -keypass confluent -ext "SAN=dns:$i,dns:localhost"
+keytool -noprompt -keystore kafka.$i.keystore.jks -alias $i -import -file $i-ca1-signed.crt -storepass confluent -keypass confluent -ext "SAN=dns:$i,dns:ec2-34-238-255-241.compute-1.amazonaws.com"
 #keytool -list -v -keystore kafka.$i.keystore.jks -storepass confluent
 
 # Create truststore and import the CA cert

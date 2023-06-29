@@ -169,11 +169,11 @@ fi
 echo
 echo -e "\nAvailable LDAP users:"
 #docker-compose exec openldap ldapsearch -x -h localhost -b dc=confluentdemo,dc=io -D "cn=admin,dc=confluentdemo,dc=io" -w admin | grep uid:
-curl -u mds:mds -X POST "https://localhost:8091/security/1.0/principals/User%3Amds/roles/UserAdmin" \
+curl -u mds:mds -X POST "https://ec2-34-238-255-241.compute-1.amazonaws.com:8091/security/1.0/principals/User%3Amds/roles/UserAdmin" \
   -H "accept: application/json" -H "Content-Type: application/json" \
   -d "{\"clusters\":{\"kafka-cluster\":\"does_not_matter\"}}" \
   --cacert ${DIR}/security/snakeoil-ca-1.crt --tlsv1.2
-curl -u mds:mds -X POST "https://localhost:8091/security/1.0/rbac/principals" --silent \
+curl -u mds:mds -X POST "https://ec2-34-238-255-241.compute-1.amazonaws.com:8091/security/1.0/rbac/principals" --silent \
   -H "accept: application/json"  -H "Content-Type: application/json" \
   -d "{\"clusters\":{\"kafka-cluster\":\"does_not_matter\"}}" \
   --cacert ${DIR}/security/snakeoil-ca-1.crt --tlsv1.2 | jq '.[]'

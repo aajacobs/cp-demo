@@ -17,22 +17,22 @@ export CONNECTOR_VERSION=${CONNECTOR_VERSION:-$CONFLUENT}
 # C3_KSQLDB_HTTPS=true : set Control Center and ksqlDB server to use HTTPS
 export C3_KSQLDB_HTTPS=${C3_KSQLDB_HTTPS:-false}
 if [[ "$C3_KSQLDB_HTTPS" == "false" ]]; then
-  export CONTROL_CENTER_KSQL_WIKIPEDIA_URL="http://ksqldb-server:8088"
-  export CONTROL_CENTER_KSQL_WIKIPEDIA_ADVERTISED_URL="http://localhost:8088"
-  C3URL=http://localhost:9021
+  export CONTROL_CENTER_KSQL_WIKIPEDIA_URL="http://ec2-34-238-255-241.compute-1.amazonaws.com:8088"
+  export CONTROL_CENTER_KSQL_WIKIPEDIA_ADVERTISED_URL="http://ec2-34-238-255-241.compute-1.amazonaws.com:8088"
+  C3URL=http://ec2-34-238-255-241.compute-1.amazonaws.com:9021
 else
-  export CONTROL_CENTER_KSQL_WIKIPEDIA_URL="https://ksqldb-server:8089"
-  export CONTROL_CENTER_KSQL_WIKIPEDIA_ADVERTISED_URL="https://localhost:8089"
-  C3URL=https://localhost:9022
+  export CONTROL_CENTER_KSQL_WIKIPEDIA_URL="https://ec2-34-238-255-241.compute-1.amazonaws.com:8089"
+  export CONTROL_CENTER_KSQL_WIKIPEDIA_ADVERTISED_URL="https://ec2-34-238-255-241.compute-1.amazonaws.com:8089"
+  C3URL=https://ec2-34-238-255-241.compute-1.amazonaws.com:9022
 fi
 
 # Set Kibana URL
-kibanaURL="http://localhost:5601/app/dashboards#/view/Overview"
+kibanaURL="http://ec2-34-238-255-241.compute-1.amazonaws.com:5601/app/dashboards#/view/Overview"
 
 # Gitpod only supports the C3_KSQLDB_HTTPS=false scenario and exposes services with a custom URL
 if [[ -n "${GITPOD_WORKSPACE_URL:-}" ]]; then
   C3_KSQLDB_HTTPS="false"
-  export CONTROL_CENTER_KSQL_WIKIPEDIA_URL="http://ksqldb-server:8088"
+  export CONTROL_CENTER_KSQL_WIKIPEDIA_URL="http://ec2-34-238-255-241.compute-1.amazonaws.com:8088"
   export CONTROL_CENTER_KSQL_WIKIPEDIA_ADVERTISED_URL="https://8088-${GITPOD_WORKSPACE_URL#https://}"
   C3URL="https://9021-${GITPOD_WORKSPACE_URL#https://} (port 9022 not supported on Gitpod)"
   kibanaURL="https://5601-${GITPOD_WORKSPACE_URL#https://}/app/dashboards#/view/Overview"
